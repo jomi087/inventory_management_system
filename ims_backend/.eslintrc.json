@@ -1,0 +1,49 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "env": {
+    "node": true,
+    "es2020": true
+  },
+  "rules": {
+    /* ===== Backend-friendly rules ===== */
+
+    "no-console": "off", 
+    "no-process-exit": "off",
+
+    /* ===== TypeScript safety ===== */
+
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_" }
+    ],
+
+    "@typescript-eslint/no-explicit-any": "warn",
+
+    "@typescript-eslint/explicit-function-return-type": "off",
+
+    "@typescript-eslint/no-non-null-assertion": "warn",
+
+    /* ===== Async / Promise safety ===== */
+
+    "@typescript-eslint/no-floating-promises": "error",
+
+    "@typescript-eslint/require-await": "error",
+
+    /* ===== Code clarity ===== */
+
+    "eqeqeq": ["error", "always"],
+
+    "prefer-const": "error"
+  }
+}
