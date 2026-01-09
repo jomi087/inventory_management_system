@@ -47,11 +47,11 @@ export class ItemRepository implements ItemRepositoryInterface {
 
     async updateById(
         id: string,
-        updateData: {
-            name?: string;
-            description?: string;
-            quantity?: number;
-            price?: number;
+        updateData:  {
+            name?: string | undefined;
+            description?: string | undefined;
+            quantity?: number | undefined;
+            price?: number | undefined;
         }
     ): Promise<ItemResponse| null> {
         const updatedItem = await ItemModel.findByIdAndUpdate(

@@ -6,12 +6,12 @@ import { createdItemSchema } from '../validation/inventory/createItemSchema ';
 import { updateItemSchema } from '../validation/inventory/updateItemSchema';
 import { deleteItemSchema } from '../validation/inventory/deleteItemSchema';
 import { ItemControllers } from '../controllers/ItemControllers';
-import { ItemService } from '../services/ItemService';
+import { ItemServiceV1 } from '../services/ItemService';
 import { ItemRepository } from '../repositories/ItemRepository';
 
 
 const itemRepository = new ItemRepository()
-const itemService = new ItemService(itemRepository)
+const itemService = new ItemServiceV1(itemRepository)
 const itemControllers = new ItemControllers(itemService)
 
 const router = Router();
