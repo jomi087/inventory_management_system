@@ -33,7 +33,7 @@ export class AuthServiceV1 implements AuthServiceInterface {
     }
 
     const token = signToken({
-      userId: user._id.toString(),
+      userId: user.id,
       email: user.email,
     });
 
