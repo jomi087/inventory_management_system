@@ -4,18 +4,14 @@ import { SUCCESS_MESSAGES } from '../messages/success_messages';
 import { GetItemRequest } from '../validation/inventory/getItemsQuerySchema';
 import { HTTP_STATUS } from '../constants/http_constants';
 import { createItemRequest } from '../validation/inventory/createItemSchema ';
-import { ERROR_MESSAGES } from '../messages/error_messages';
 import {
     UpdateItemBody,
     UpdateItemParams,
 } from '../validation/inventory/updateItemSchema';
-import { AppError } from '../errors/AppError';
 import { DeleteItemParams } from '../validation/inventory/deleteItemSchema';
-import ItemModel from '../models/itemModel';
-import { mapItemResponse } from '../repositories/mappers/itemMapper';
 import { ItemServiceInterface } from '../services/ItemServiceInterface';
 
-export class ItemControllers {
+export class ItemController {
     constructor(private readonly _itemService: ItemServiceInterface) {}
 
     getItems = async (

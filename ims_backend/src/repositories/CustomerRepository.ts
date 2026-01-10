@@ -40,13 +40,19 @@ export class CustomerRepository implements CustomerRepositoryInterface {
             mobile?: string | undefined;
         }
     ): Promise<Customer | null> {
-        const updatedItem = await CustomerModel.findByIdAndUpdate(
+        const updatedCustomer = await CustomerModel.findByIdAndUpdate(
             id,
             { $set: updateData },
             { new: true }
         );
-        if (!updatedItem) return null;
-        return mapCustomerResponse(updatedItem);
+        if (!updatedCustomer) return null;
+        return mapCustomerResponse(updatedCustomer);
+    }
+
+    async findCustomerById(id: string): Promise<Customer | null> {
+        const customer = await CustomerModel.findById(id).lean();
+        if (!customer) return null;
+        return mapCustomerResponse(customer);
     }
 
     

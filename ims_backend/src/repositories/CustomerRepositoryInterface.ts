@@ -19,4 +19,5 @@ export interface CustomerRepositoryInterface {
             mobile?: string | undefined;
         }
     ): Promise<Customer | null>;
+    findCustomerById(id: string): Promise<Customer | null>;
 }

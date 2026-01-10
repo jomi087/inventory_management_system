@@ -5,7 +5,7 @@ import { HTTP_STATUS } from '../constants/http_constants';
 import { AuthServiceInterface } from '../services/AuthServiceInterface';
 import { loginRequest } from '../validation/auth/loginSchema';
 
-export class AuthControllers {
+export class AuthController {
     constructor(private readonly _authService: AuthServiceInterface) {}
 
     login = async (

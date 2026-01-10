@@ -2,13 +2,13 @@ import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS } from '../constants/http_constants';
 import { SUCCESS_MESSAGES } from '../messages/success_messages';
 import { CreateCustomerRequest } from '../validation/customer/createCustomerScehma';
-import { CustomerServiceInterface } from '../services/customerServiceInterface';
 import {
     UpdateCustomerBody,
     UpdateCustomerParams,
 } from '../validation/customer/updateCustomerSchema';
+import { CustomerServiceInterface } from '../services/CustomerServiceInterface';
 
-export class CustomerControllers {
+export class CustomerController {
     constructor(private readonly _customerService: CustomerServiceInterface) {}
 
     createCustomer = async (
@@ -55,13 +55,15 @@ export class CustomerControllers {
             const update = req.body;
             const { id } = req.params;
 
-            const customers = await this._customerService.updateCustomer(id,update);
+            const customers = await this._customerService.updateCustomer(
+                id,
+                update
+            );
 
             res.status(HTTP_STATUS.OK).json({
                 message: SUCCESS_MESSAGES.CUSTOMER_UPDATED,
-                updatedCustomer: customers
+                updatedCustomer: customers,
             });
-
         } catch (error) {
             next(error);
         }

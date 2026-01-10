@@ -1,4 +1,5 @@
 import { GetItemsResult, ItemFilter, ItemResponse } from '../types/Items';
+import { UpdateItemBody } from '../validation/inventory/updateItemSchema';
 
 export interface ItemRepositoryInterface {
     getItems(
@@ -15,12 +16,9 @@ export interface ItemRepositoryInterface {
     }): Promise<ItemResponse>;
     updateById(
         id: string,
-        updateData: {
-            name?: string | undefined;
-            description?: string | undefined;
-            quantity?: number | undefined;
-            price?: number | undefined;
-        }
+        updateData: UpdateItemBody
     ): Promise<ItemResponse | null>;
     deleteById(id: string): Promise<boolean>;
+    findItemById(id: string): Promise<ItemResponse | null>;
+    reduceStock(itemId: string, quantity: number): Promise<ItemResponse | null>;
 }
