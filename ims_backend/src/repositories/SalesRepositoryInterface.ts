@@ -1,3 +1,5 @@
+import { SaleLedgerResponse, SaleReportResponse } from '../types/report';
+
 export interface SalesRepositoryInterface {
     createSale(payload: {
         itemId: string;
@@ -6,4 +8,7 @@ export interface SalesRepositoryInterface {
         customerId?: string;
         paymentType: 'CASH' | 'CUSTOMER';
     }): Promise<void>;
+
+    getSalesByCustomerId(customerId: string): Promise<SaleLedgerResponse[]>;
+    findSalesInDateRange(from: Date, to: Date): Promise<SaleReportResponse[]>;
 }

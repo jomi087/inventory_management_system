@@ -6,6 +6,8 @@ export interface ISale extends Document {
     priceAtSale: number;
     customerId?: Types.ObjectId;
     paymentType: 'CASH' | 'CUSTOMER';
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const saleSchema = new Schema<ISale>(

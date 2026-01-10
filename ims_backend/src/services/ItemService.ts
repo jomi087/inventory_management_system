@@ -31,7 +31,7 @@ export class ItemServiceV1 implements ItemServiceInterface {
                   }
                 : {};
 
-        return this._itemRepository.getItems(filter, skip, limitNumber);
+        return await this._itemRepository.getItems(filter, skip, limitNumber);
     }
 
     async createItem(
