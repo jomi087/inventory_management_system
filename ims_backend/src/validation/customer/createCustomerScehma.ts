@@ -9,7 +9,7 @@ export const createCustomerSchema = z.object({
         mobile: z
             .string()
             .trim()
-            .regex(/^[0-9]{10}$/, VALIDATION_MESSAGES.MOBILE_INVALID),
+            .regex(/^[7-9]\d{9}$/, VALIDATION_MESSAGES.MOBILE_INVALID),
     }),
 });
 

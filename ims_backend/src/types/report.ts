@@ -22,7 +22,7 @@ export interface SaleReportResponse {
         id: string;
         name: string;
         mobile: string;
-    };
+    } | null;
     paymentType: 'CASH' | 'CUSTOMER';
     createdAt: Date;
 }

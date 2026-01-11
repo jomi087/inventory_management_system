@@ -8,7 +8,7 @@ export interface SaleReportPopulatedDB {
     };
     quantity: number;
     priceAtSale: number;
-    customerId: {
+    customerId?: {
         _id: Types.ObjectId;
         name: string;
         mobile: string;
@@ -17,7 +17,7 @@ export interface SaleReportPopulatedDB {
     createdAt: Date;
 }
 
-export const mapSaleToReportResponse  = (sale: SaleReportPopulatedDB) => {
+export const mapSaleToReportResponse = (sale: SaleReportPopulatedDB) => {
     return {
         id: sale._id.toString(),
         item: {
@@ -26,11 +26,13 @@ export const mapSaleToReportResponse  = (sale: SaleReportPopulatedDB) => {
         },
         quantity: sale.quantity,
         priceAtSale: sale.priceAtSale,
-        customer: {
-            id: sale.customerId._id.toString(),
-            name: sale.customerId.name,
-            mobile: sale.customerId.mobile,
-        },
+        customer: sale.customerId
+            ? {
+                  id: sale.customerId._id.toString(),
+                  name: sale.customerId.name,
+                  mobile: sale.customerId.mobile,
+              }
+            : null,
         paymentType: sale.paymentType,
         createdAt: sale.createdAt,
     };

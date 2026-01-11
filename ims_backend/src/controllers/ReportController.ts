@@ -50,15 +50,19 @@ export class ReportController {
         next: NextFunction
     ) => {
         try {
+            console.log('hi');
             const { data, total } = await this._reportService.getSalesReport(
                 req.query
             );
+
+            console.log('data', data, total);
 
             res.status(HTTP_STATUS.OK).json({
                 salesReport: data,
                 total,
             });
         } catch (error) {
+            console.log(error);
             next(error);
         }
     };

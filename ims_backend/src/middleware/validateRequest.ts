@@ -10,12 +10,16 @@ type RequestSchema = ZodType<{
 
 export const validateRequest =
     (schema: RequestSchema) =>
-    (req: Request, res: Response, next: NextFunction) => {
+        (req: Request, res: Response, next: NextFunction) => {
+            console.log("body",req.body)
+            console.log("paraams",req.params)
+            console.log("query",req.query)
         const result = schema.safeParse({
             body: req.body,
             query: req.query,
             params: req.params,
         });
+            console.log("result",result)
 
         if (!result.success) {
             const errorMessages = result.error.issues.map((err) => err.message);

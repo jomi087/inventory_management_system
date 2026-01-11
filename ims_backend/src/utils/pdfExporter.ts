@@ -13,7 +13,7 @@ export const generateSalesReportPDF = (data: any) => {
 
         data.forEach((sale: any) => {
             doc.text(
-                `${sale.itemName} | Qty: ${sale.quantity} | Price: ${sale.priceAtSale}`
+                `${sale.item.name} | Qty: ${sale.quantity} | Price: ${sale.priceAtSale}`
             );
         });
 

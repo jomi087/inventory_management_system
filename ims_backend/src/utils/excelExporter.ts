@@ -12,7 +12,7 @@ export const generateSalesReportExcel = async (data: any): Promise<Buffer> => {
 
     data.forEach((sale: any) => {
         ws.addRow({
-            item: sale.itemName,
+            item: sale.item.name,
             qty: sale.quantity,
             price: sale.priceAtSale,
         });
