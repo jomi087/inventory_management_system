@@ -3,17 +3,11 @@ import { VALIDATION_MESSAGES } from '../../messages/validation_messages';
 
 const { PAGE_NUMBER_INVALID, LIMIT_NUMBER_INVALID } = VALIDATION_MESSAGES;
 
-export const customerLedgerSchema = z.object({
-    params: z.object({
-        id: z.string(),
-    }),
+export const itemReportSchema = z.object({
     query: z.object({
         page: z.string().regex(/^\d+$/, PAGE_NUMBER_INVALID).optional(),
         limit: z.string().regex(/^\d+$/, LIMIT_NUMBER_INVALID).optional(),
     }),
 });
 
-export type CustomerLedgerQuery = z.infer<typeof customerLedgerSchema>['query'];
-export type CustomerLedgerParams = z.infer<
-    typeof customerLedgerSchema
->['params'];
+export type ItemReportQuery = z.infer<typeof itemReportSchema>['query'];

@@ -85,4 +85,34 @@ export class ItemRepository implements ItemRepositoryInterface {
         if (!updatedItem) return null;
         return mapItemResponse(updatedItem);
     }
+
+    async countLowStock(threshold: number): Promise<number> {
+        return ItemModel.countDocuments({
+            quantity: { $lt: threshold },
+        });
+    }
+
+    async countOutOfStock(): Promise<number> {
+        return ItemModel.countDocuments({
+            quantity: 0,
+        });
+    }
+
+    async getTotalInventoryValue(): Promise<number> {
+        const result = await ItemModel.aggregate([
+            {
+                $project: {
+                    total: { $multiply: ['$quantity', '$price'] },
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    grandTotal: { $sum: '$total' },
+                },
+            },
+        ]);
+
+        return result[0]?.grandTotal || 0;
+    }
 }

@@ -9,6 +9,22 @@ export interface SalesRepositoryInterface {
         paymentType: 'CASH' | 'CUSTOMER';
     }): Promise<void>;
 
-    getSalesByCustomerId(customerId: string): Promise<SaleLedgerResponse[]>;
-    findSalesInDateRange(from: Date, to: Date): Promise<SaleReportResponse[]>;
+    getSalesByCustomerId(
+        customerId: string,
+        skip: number,
+        limit: number
+    ): Promise<{
+        data: SaleLedgerResponse[];
+        total: number;
+    }>;
+    getTotalAmountByCustomerId(customerId: string): Promise<number>;
+    findSalesInDateRange(
+        from: Date,
+        to: Date,
+        skip: number,
+        limit: number
+    ): Promise<{
+        data: SaleReportResponse[];
+        total: number;
+    }>;
 }

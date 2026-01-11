@@ -21,4 +21,9 @@ export interface ItemRepositoryInterface {
     deleteById(id: string): Promise<boolean>;
     findItemById(id: string): Promise<ItemResponse | null>;
     reduceStock(itemId: string, quantity: number): Promise<ItemResponse | null>;
+    countLowStock(threshold: number): Promise<number>;
+    countOutOfStock(): Promise<number>;
+    getTotalInventoryValue(): Promise<number>;
+
+
 }

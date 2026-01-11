@@ -4,7 +4,7 @@ import { ERROR_MESSAGES } from '../messages/error_messages';
 import { CustomerRepositoryInterface } from '../repositories/CustomerRepositoryInterface';
 import { ItemRepositoryInterface } from '../repositories/ItemRepositoryInterface';
 import { SalesRepositoryInterface } from '../repositories/SalesRepositoryInterface';
-import { GetItemsResult } from '../types/Items';
+import { GetItemsResult, ItemReportResult } from '../types/Items';
 import { SaleLedgerResponse, SaleReportResponse } from '../types/report';
 import { SaleReportQuery } from '../validation/report/saleReportSchema';
 import { ReportServiceInterface } from './ReportServiceInterface';
@@ -16,7 +16,11 @@ export class ReportServiceV1 implements ReportServiceInterface {
         private readonly _itemRepository: ItemRepositoryInterface
     ) {}
 
-    async getCustomerLedger(id: string): Promise<{
+    async getCustomerLedger(
+        id: string,
+        pageNumber: number,
+        limitNumber: number
+    ): Promise<{
         customer: {
             id: string;
             name: string;
@@ -24,7 +28,10 @@ export class ReportServiceV1 implements ReportServiceInterface {
         };
         transactions: SaleLedgerResponse[];
         totalAmount: number;
+        total: number;
     }> {
+        const skip = (pageNumber - 1) * limitNumber;
+
         const customer = await this._customerRepository.findCustomerById(id);
         if (!customer) {
             throw new AppError(
@@ -33,12 +40,15 @@ export class ReportServiceV1 implements ReportServiceInterface {
             );
         }
 
-        const sales = await this._saleRepository.getSalesByCustomerId(id);
+        const { data: sales, total } =
+            await this._saleRepository.getSalesByCustomerId(
+                id,
+                skip,
+                limitNumber
+            );
 
-        const totalAmount = sales.reduce(
-            (sum, sale) => sum + sale.quantity * sale.priceAtSale,
-            0
-        );
+        const totalAmount =
+            await this._saleRepository.getTotalAmountByCustomerId(id);
 
         return {
             customer: {
@@ -48,50 +58,63 @@ export class ReportServiceV1 implements ReportServiceInterface {
             },
             transactions: sales,
             totalAmount,
+            total,
         };
     }
 
-    async getSalesReport(
-        dateRange: SaleReportQuery
-    ): Promise<SaleReportResponse[]> {
-        const { from, to } = dateRange;
+    async getSalesReport(dateRange: SaleReportQuery): Promise<{
+        data: SaleReportResponse[];
+        total: number;
+    }> {
+        const { from, to, page = '1', limit = '10' } = dateRange;
+        const pageNumber = Number(page);
+        const limitNumber = Number(limit);
+        const skip = (pageNumber - 1) * limitNumber;
 
         let fromDate = from
             ? new Date(`${from}T00:00:00.000Z`)
             : new Date(new Date().setHours(0, 0, 0, 0));
         let toDate = to
-            ? new Date(`${to}T00:00:00.000Z`)
+            ? new Date(`${to}T23:59:59.999Z`)
             : new Date(new Date().setHours(23, 59, 59, 999));
 
         const salesReport = await this._saleRepository.findSalesInDateRange(
             fromDate,
-            toDate
+            toDate,
+            skip,
+            limitNumber
         );
         return salesReport;
     }
 
     async getItemsReport(
-        search: string,
         pageNumber: number,
         limitNumber: number
-    ): Promise<GetItemsResult> {
+    ): Promise<ItemReportResult> {
         const skip = (pageNumber - 1) * limitNumber;
+        const filter = {};
 
-        const filter =
-            typeof search === 'string' && search.trim()
-                ? {
-                      $or: [
-                          { name: { $regex: search, $options: 'i' } },
-                          {
-                              description: {
-                                  $regex: search,
-                                  $options: 'i',
-                              },
-                          },
-                      ],
-                  }
-                : {};
+        const { items, total } = await this._itemRepository.getItems(
+            filter,
+            skip,
+            limitNumber
+        );
 
-        return await this._itemRepository.getItems(filter, skip, limitNumber);
+        const lowStockCount = await this._itemRepository.countLowStock(10);
+
+        const outOfStockCount = await this._itemRepository.countOutOfStock();
+
+        const totalInventoryValue =
+            await this._itemRepository.getTotalInventoryValue();
+
+        return {
+            items,
+            total,
+            lowStockCount,
+            outOfStockCount,
+            totalInventoryValue,
+        };
     }
+
+    
 }

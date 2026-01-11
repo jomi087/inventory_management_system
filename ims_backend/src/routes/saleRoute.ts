@@ -2,11 +2,11 @@ import { Router } from 'express';
 import { protect } from '../middleware/authMiddleware';
 import { validateRequest } from '../middleware/validateRequest';
 import { createSaleSchema } from '../validation/sale/createSaleSchema';
-import { SalesController } from '../controllers/SalesController';
 import { SalesServiceV1 } from '../services/SalesService';
 import { SalesRepository } from '../repositories/SalesRepository';
 import { CustomerRepository } from '../repositories/CustomerRepository';
 import { ItemRepository } from '../repositories/ItemRepository';
+import { SalesController } from '../controllers/SalesController';
 
 const itemRepository = new ItemRepository();
 const customerRepository = new CustomerRepository();

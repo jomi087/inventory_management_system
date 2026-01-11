@@ -1,23 +1,21 @@
 import { z } from 'zod';
-import { VALIDATION_MESSAGES } from '../../../messages/validation_messages';
+import { VALIDATION_MESSAGES } from '../../messages/validation_messages';
+const { PAGE_NUMBER_INVALID, LIMIT_NUMBER_INVALID, DATE_FORMAT } =
+    VALIDATION_MESSAGES;
 
 export const saleReportSchema = z.object({
     query: z
         .object({
             from: z
                 .string()
-                .regex(
-                    /^\d{4}-\d{2}-\d{2}$/,
-                    VALIDATION_MESSAGES.DATE_FORMAT
-                )
+                .regex(/^\d{4}-\d{2}-\d{2}$/, DATE_FORMAT)
                 .optional(),
             to: z
                 .string()
-                .regex(
-                    /^\d{4}-\d{2}-\d{2}$/,
-                    VALIDATION_MESSAGES.DATE_FORMAT
-                )
+                .regex(/^\d{4}-\d{2}-\d{2}$/, DATE_FORMAT)
                 .optional(),
+            page: z.string().regex(/^\d+$/, PAGE_NUMBER_INVALID).optional(),
+            limit: z.string().regex(/^\d+$/, LIMIT_NUMBER_INVALID).optional(),
         })
         // Rule 1: both or none
         .refine((q) => (q.from && q.to) || (!q.from && !q.to), {
