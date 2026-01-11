@@ -4,7 +4,7 @@ import { ERROR_MESSAGES } from '../messages/error_messages';
 import { CustomerRepositoryInterface } from '../repositories/CustomerRepositoryInterface';
 import { Customer } from '../types/customer';
 import { UpdateCustomerBody } from '../validation/customer/updateCustomerSchema';
-import { CustomerServiceInterface } from './customerServiceInterface';
+import { CustomerServiceInterface } from './CustomerServiceInterface';
 
 export class CustomerServiceV1 implements CustomerServiceInterface {
     constructor(
