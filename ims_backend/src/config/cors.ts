@@ -1,5 +1,6 @@
+
 export const corsOptions = {
-    origin: process.env.FRONTEND_URL,
+    origin: "*",
     // credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: [
@@ -10,3 +11,5 @@ export const corsOptions = {
         'Origin',
     ],
 };
+
+
