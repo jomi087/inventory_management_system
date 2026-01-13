@@ -12,7 +12,7 @@ app.use(
     express.urlencoded({ extended: true, limit: process.env.URLENCODED_LIMIT })
 );
 app.use(cors(corsOptions));
-app.options(process.env.FRONTEND_URL as string, cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use('/api', router);
 
