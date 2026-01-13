@@ -16,14 +16,7 @@
     "license": "ISC",
     "type": "commonjs",
     "devDependencies": {
-        "@types/bcrypt": "^6.0.0",
-        "@types/cors": "^2.8.19",
-        "@types/express": "^5.0.6",
-        "@types/jsonwebtoken": "^9.0.10",
-        "@types/ms": "^2.1.0",
-        "@types/node": "^25.0.6",
-        "@types/nodemailer": "^7.0.5",
-        "@types/pdfkit": "^0.17.4",
+       
         "@typescript-eslint/eslint-plugin": "^8.52.0",
         "@typescript-eslint/parser": "^8.52.0",
         "eslint": "^9.39.2",
@@ -34,6 +27,15 @@
         "typescript": "^5.9.3"
     },
     "dependencies": {
+         "@types/bcrypt": "^6.0.0",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.6",
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/ms": "^2.1.0",
+        "@types/node": "^25.0.6",
+        "@types/nodemailer": "^7.0.5",
+        "@types/pdfkit": "^0.17.4",
+        
         "bcrypt": "^6.0.0",
         "cors": "^2.8.5",
         "dotenv": "^17.2.3",
