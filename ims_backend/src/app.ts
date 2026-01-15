@@ -10,7 +10,6 @@ export const app = express();
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
     console.log('REQUEST ORIGIN =>', req.headers.origin);
-    next();
 });
 
 app.use(express.json({ limit: process.env.BODY_LIMIT }));
