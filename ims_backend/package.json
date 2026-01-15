@@ -5,8 +5,9 @@
     "main": "dist/server.js",
     "scripts": {
         "dev": "nodemon --exec ts-node src/server.ts",
+        "devSeed": "ts-node src/seeds/seedAdmin.ts",
         "build": "tsc",
-        "seed": "ts-node src/seeds/seedAdmin.ts",
+        "seed": "node dist/seeds/seedAdmin.js",
         "start": "node dist/server.js",
         "lint": "eslint . --ext .ts",
         "format": "prettier --write ."
