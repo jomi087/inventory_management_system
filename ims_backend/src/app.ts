@@ -8,15 +8,17 @@ import { errorHandler } from './middleware/errorhandler';
 export const app = express();
 
 app.use(cors(corsOptions));
+app.options('*', cors());
+
 app.use((req, res, next) => {
     console.log('REQUEST ORIGIN =>', req.headers.origin);
+    next();
 });
 
 app.use(express.json({ limit: process.env.BODY_LIMIT }));
 app.use(
     express.urlencoded({ extended: true, limit: process.env.URLENCODED_LIMIT })
 );
-// app.options("/*", cors(corsOptions));
 
 app.use('/api', router);
 
