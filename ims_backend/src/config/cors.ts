@@ -6,9 +6,6 @@ export const corsOptions = {
     allowedHeaders: [
         'Content-Type',
         'Authorization',
-        'X-Requested-With',
-        'Accept',
-        'Origin',
     ],
 };
 
