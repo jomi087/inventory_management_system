@@ -3,7 +3,7 @@ import { app } from "./app";
 import { connectDB } from "./config/db";
 import { logger } from "./config/logger";
 
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT) || 3000;
 
 connectDB().catch((err) => {
     logger.error('Server startup failed', err);
