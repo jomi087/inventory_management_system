@@ -1,14 +1,15 @@
 import { Types } from "mongoose";
+import { IItem } from "../../models/itemModel";
 
-export interface ItemDB {
-  _id: Types.ObjectId;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-}
+// export interface ItemDB {  IItem is serving the same purpose
+//   _id: Types.ObjectId;
+//   name: string;
+//   description: string;
+//   price: number;
+//   quantity: number;
+// }
 
-export const mapItemResponse = (item: ItemDB) => {
+export const mapItemResponse = (item: IItem) => {
     return {
         id: item._id.toString(),
         name: item.name,

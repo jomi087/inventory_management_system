@@ -7,9 +7,9 @@ import { signToken } from '../utils/jwt';
 import { AuthRepositoryInterface } from '../repositories/AuthRepositoryInterface';
 import { AuthServiceInterface } from './AuthServiceInterface';
 
-export class AuthServiceV1 implements AuthServiceInterface {
+export class AuthServiceV1 implements AuthServiceInterface {  //High-level module = Business logic layer
   constructor(
-    private readonly _authRepository: AuthRepositoryInterface
+    private readonly _authRepository: AuthRepositoryInterface  //High-level modules should NOT depend on low-level modules They should depend on abstractions (interfaces)
   ) {}
 
   async login(email: string, password: string): Promise<string> {

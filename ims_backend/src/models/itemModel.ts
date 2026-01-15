@@ -6,22 +6,29 @@ import {
 } from '../constants/validation_constants';
 import { VALIDATION_MESSAGES } from '../messages/validation_messages';
 
-const { ITEM_NAME_LENGTH, NAME_REQUIRED, DESCRIPTION_LENGTH, DESCRIPTION_REQUIRED,  QUANTITY_REQUIRED, QUANTITY_MIN, PRICE_MIN, PRICE_REQUIRED } =
-    VALIDATION_MESSAGES;
+const {
+    ITEM_NAME_LENGTH,
+    NAME_REQUIRED,
+    DESCRIPTION_LENGTH,
+    DESCRIPTION_REQUIRED,
+    QUANTITY_REQUIRED,
+    QUANTITY_MIN,
+    PRICE_MIN,
+    PRICE_REQUIRED,
+} = VALIDATION_MESSAGES;
 
-
-export interface Iitem extends Document {
+export interface IItem extends Document {
     name: string;
     description: string;
     quantity: number;
     price: number;
 }
 
-const itemSchema = new Schema<Iitem>(
+const itemSchema = new Schema<IItem>(
     {
         name: {
             type: String,
-            required: [true,NAME_REQUIRED],
+            required: [true, NAME_REQUIRED],
             lowercase: true,
             trim: true,
             minlength: [ITEM_NAME.MIN_LENGTH, ITEM_NAME_LENGTH],
@@ -51,5 +58,5 @@ const itemSchema = new Schema<Iitem>(
     }
 );
 
-const ItemModel = model<Iitem>('Item', itemSchema);
+const ItemModel = model<IItem>('Item', itemSchema);
 export default ItemModel;
