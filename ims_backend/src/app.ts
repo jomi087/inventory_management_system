@@ -8,7 +8,7 @@ import { errorHandler } from './middleware/errorhandler';
 export const app = express();
 
 app.use(cors(corsOptions));
-app.options('*', cors());
+app.options(/.*/, cors());
 
 app.use((req, res, next) => {
     console.log('REQUEST ORIGIN =>', req.headers.origin);
