@@ -14,7 +14,7 @@ export interface ItemRepositoryInterface {
         quantity: number;
         price: number;
     }): Promise<ItemResponse>;
-    updateById(
+    updateItemById(
         id: string,
         updateData: UpdateItemBody
     ): Promise<ItemResponse | null>;

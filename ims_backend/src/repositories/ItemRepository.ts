@@ -60,7 +60,7 @@ export class ItemRepository
         return this.create(payload);
     }
 
-    async updateById(
+    async updateItemById(
         id: string,
         updateData: UpdateItemBody
     ): Promise<ItemResponse | null> {

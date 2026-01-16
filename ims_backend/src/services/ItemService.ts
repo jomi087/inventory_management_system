@@ -79,7 +79,7 @@ export class ItemServiceV1 implements ItemServiceInterface {
             update.name = sanitizedName;
         }
 
-        const updatedItem = await this._itemRepository.updateById(id, update);
+        const updatedItem = await this._itemRepository.updateItemById(id, update);
 
         if (!updatedItem) {
             throw new AppError(
