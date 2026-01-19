@@ -93,8 +93,6 @@ export class SalesRepository implements SalesRepositoryInterface {
                 .lean(),
         ]);
 
-        console.log(sales)
-
         return {
             data: sales.map(mapSaleToReportResponse),
             total,

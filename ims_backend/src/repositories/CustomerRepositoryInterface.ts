@@ -1,4 +1,4 @@
-import { Customer } from '../types/customer';
+import { Customer, CustomerFilter } from '../types/customer';
 
 export interface CustomerRepositoryInterface {
     findExistingCustomerByMoblie(
@@ -10,7 +10,7 @@ export interface CustomerRepositoryInterface {
         address: string;
         mobile: string;
     }): Promise<Customer>;
-    findAllCustomer(): Promise<Customer[]>;
+    findAllCustomer(filter:CustomerFilter): Promise<Customer[]>;
     updateCustomerById(
         id: string,
         updateData: {

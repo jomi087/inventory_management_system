@@ -7,6 +7,7 @@ import {
     UpdateCustomerParams,
 } from '../validation/customer/updateCustomerSchema';
 import { CustomerServiceInterface } from '../services/CustomerServiceInterface';
+import { GetCustomerRequest } from '../validation/customer/getCustomerQuerySchema';
 
 export class CustomerController {
     constructor(private readonly _customerService: CustomerServiceInterface) {}
@@ -34,10 +35,14 @@ export class CustomerController {
         }
     };
 
-    getCustomers = async (req: Request, res: Response, next: NextFunction) => {
+    getCustomers = async (
+        req: Request<{}, {}, {}, GetCustomerRequest>,
+        res: Response,
+        next: NextFunction
+    ) => {
         try {
-            const customers = await this._customerService.getCustomers();
-
+            const { search } = req.query;
+            const customers = await this._customerService.getCustomers(search);
             res.status(HTTP_STATUS.CREATED).json({
                 customer: customers,
             });

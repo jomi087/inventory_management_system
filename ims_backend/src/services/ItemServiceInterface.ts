@@ -3,9 +3,9 @@ import { UpdateItemBody } from '../validation/inventory/updateItemSchema';
 
 export interface ItemServiceInterface {
     getItems(
-        search: string,
         pageNumber: number,
-        limitNumber: number
+        limitNumber: number,
+        search?: string
     ): Promise<GetItemsResult>;
     createItem(
         name: string,

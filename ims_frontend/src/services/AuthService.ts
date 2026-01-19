@@ -40,12 +40,14 @@ class AuthService {
     return axiosInstance.get('/sales/');
   }
 
-  getCustomers() {
-    return axiosInstance.get('/customers/');
+  getCustomers(search?: string) {
+    return axiosInstance.get('/customers',{
+      params: { search },
+    });
   }
 
   createCustomer(data: CreateCustomerPayload) {
-    return axiosInstance.post('/customers/', data);
+    return axiosInstance.post('/customers', data);
   }
 
   updateCustomer(id: string, data: updateCustomerPayload) {

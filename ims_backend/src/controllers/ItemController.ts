@@ -25,9 +25,9 @@ export class ItemController {
             const limitNumber = Number(limit);
 
             const { items, total } = await this._itemService.getItems(
-                search as string,
                 pageNumber,
-                limitNumber
+                limitNumber,
+                search,
             );
 
             res.status(HTTP_STATUS.OK).json({

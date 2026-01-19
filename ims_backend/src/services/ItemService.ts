@@ -10,26 +10,26 @@ export class ItemServiceV1 implements ItemServiceInterface {
     constructor(private readonly _itemRepository: ItemRepositoryInterface) {}
 
     async getItems(
-        search: string,
         pageNumber: number,
-        limitNumber: number
+        limitNumber: number,
+        search?: string
     ): Promise<GetItemsResult> {
         const skip = (pageNumber - 1) * limitNumber;
 
-        const filter =
-            typeof search === 'string' && search.trim()
-                ? {
-                      $or: [
-                          { name: { $regex: search, $options: 'i' } },
-                          {
-                              description: {
-                                  $regex: search,
-                                  $options: 'i',
-                              },
+        const trimmedSearch = search?.trim();
+        const filter = trimmedSearch
+            ? {
+                  $or: [
+                      { name: { $regex: trimmedSearch, $options: 'i' } },
+                      {
+                          description: {
+                              $regex: trimmedSearch,
+                              $options: 'i',
                           },
-                      ],
-                  }
-                : {};
+                      },
+                  ],
+              }
+            : {};
 
         return await this._itemRepository.getItems(filter, skip, limitNumber);
     }
@@ -79,7 +79,10 @@ export class ItemServiceV1 implements ItemServiceInterface {
             update.name = sanitizedName;
         }
 
-        const updatedItem = await this._itemRepository.updateItemById(id, update);
+        const updatedItem = await this._itemRepository.updateItemById(
+            id,
+            update
+        );
 
         if (!updatedItem) {
             throw new AppError(

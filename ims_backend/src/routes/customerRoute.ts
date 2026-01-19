@@ -6,6 +6,7 @@ import { updateCustomerSchema } from '../validation/customer/updateCustomerSchem
 import { CustomerController } from '../controllers/CustomerController';
 import { CustomerServiceV1 } from '../services/CustomerService';
 import { CustomerRepository } from '../repositories/CustomerRepository';
+import { getCustomerQuerySchema } from '../validation/customer/getCustomerQuerySchema';
 
 const customerRepository = new CustomerRepository();
 const customerService = new CustomerServiceV1(customerRepository);

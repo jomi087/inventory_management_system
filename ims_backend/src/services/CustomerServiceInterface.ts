@@ -7,6 +7,6 @@ export interface CustomerServiceInterface {
         address: string,
         mobile: string
     ): Promise<Customer>;
-    getCustomers(): Promise<Customer[]>;
+    getCustomers(search?:string): Promise<Customer[]>;
     updateCustomer(id: string, update: UpdateCustomerBody): Promise<Customer>;
 }

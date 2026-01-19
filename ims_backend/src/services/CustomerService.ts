@@ -35,15 +35,28 @@ export class CustomerServiceV1 implements CustomerServiceInterface {
         return customer;
     }
 
-    async getCustomers(): Promise<Customer[]> {
-        return await this._customerRepository.findAllCustomer();
+    async getCustomers(search?: string): Promise<Customer[]> {
+        const trimmedSearch = search?.trim();
+        const filter = trimmedSearch
+            ? {
+                  $or: [
+                      { name: { $regex: trimmedSearch, $options: 'i' } },
+                      {
+                          mobile: {
+                              $regex: trimmedSearch,
+                              $options: 'i',
+                          },
+                      },
+                  ],
+              }
+            : {};
+        return await this._customerRepository.findAllCustomer(filter);
     }
 
     async updateCustomer(
         id: string,
         update: UpdateCustomerBody
     ): Promise<Customer> {
-
         const sanitizedUpdate: Partial<UpdateCustomerBody> = {};
 
         if (update.name) {
@@ -55,7 +68,11 @@ export class CustomerServiceV1 implements CustomerServiceInterface {
         }
 
         if (update.mobile) {
-            const existingData = await this._customerRepository.findExistingCustomerByMoblie(update.mobile,id)
+            const existingData =
+                await this._customerRepository.findExistingCustomerByMoblie(
+                    update.mobile,
+                    id
+                );
 
             if (existingData) {
                 throw new AppError(
@@ -66,7 +83,8 @@ export class CustomerServiceV1 implements CustomerServiceInterface {
             sanitizedUpdate.mobile = update.mobile;
         }
 
-        const updatedCustomerData = await this._customerRepository.updateCustomerById(id, update)
+        const updatedCustomerData =
+            await this._customerRepository.updateCustomerById(id, update);
 
         if (!updatedCustomerData) {
             throw new AppError(
@@ -75,6 +93,6 @@ export class CustomerServiceV1 implements CustomerServiceInterface {
             );
         }
 
-        return  updatedCustomerData
+        return updatedCustomerData;
     }
 }

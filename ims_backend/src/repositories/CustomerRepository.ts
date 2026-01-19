@@ -1,5 +1,5 @@
 import CustomerModel, { ICustomer } from '../models/customerModel';
-import { Customer } from '../types/customer';
+import { Customer, CustomerFilter } from '../types/customer';
 import { BaseRepository } from './base/BaseRepository';
 import { CustomerRepositoryInterface } from './CustomerRepositoryInterface';
 import { mapCustomerResponse } from './mappers/cutomerMapper';
@@ -49,10 +49,9 @@ export class CustomerRepository
         return this.create(paylaod);
     }
 
-    async findAllCustomer(): Promise<Customer[]> {
-        const customer = await CustomerModel.find().lean();
-        // return customer.map(mapCustomerResponse); //OLD WAY
-        return this.findAll(); //NEW WAY
+    async findAllCustomer(filter:CustomerFilter): Promise<Customer[]> {
+        const customer = await CustomerModel.find(filter).lean();
+        return customer.map(mapCustomerResponse);
     }
 
     async updateCustomerById(

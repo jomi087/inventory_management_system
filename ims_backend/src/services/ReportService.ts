@@ -77,7 +77,6 @@ export class ReportServiceV1 implements ReportServiceInterface {
         let toDate = to
             ? new Date(`${to}T23:59:59.999Z`)
             : new Date(new Date().setHours(23, 59, 59, 999));
-        console.log('start' );
 
         const salesReport = await this._saleRepository.findSalesInDateRange(
             fromDate,
@@ -85,7 +84,6 @@ export class ReportServiceV1 implements ReportServiceInterface {
             skip,
             limitNumber
         );
-        console.log('end');
 
         return salesReport;
     }
