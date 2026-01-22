@@ -1,5 +1,5 @@
 import { CreateSaleBody } from "../validation/sale/createSaleSchema";
 
-export interface SalesServiceInterface {
+export interface ISalesService {
     createSale(paylaod: CreateSaleBody): Promise<void>;
 }

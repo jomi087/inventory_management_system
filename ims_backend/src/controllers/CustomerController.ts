@@ -6,11 +6,11 @@ import {
     UpdateCustomerBody,
     UpdateCustomerParams,
 } from '../validation/customer/updateCustomerSchema';
-import { CustomerServiceInterface } from '../services/CustomerServiceInterface';
+import { ICustomerService } from '../services/CustomerServiceInterface';
 import { GetCustomerRequest } from '../validation/customer/getCustomerQuerySchema';
 
 export class CustomerController {
-    constructor(private readonly _customerService: CustomerServiceInterface) {}
+    constructor(private readonly _customerService: ICustomerService) {}
 
     createCustomer = async (
         req: Request<{}, {}, CreateCustomerRequest>,

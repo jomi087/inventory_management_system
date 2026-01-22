@@ -2,11 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import { CreateSaleBody } from '../validation/sale/createSaleSchema';
 import { HTTP_STATUS } from '../constants/http_constants';
 import { SUCCESS_MESSAGES } from '../messages/success_messages';
-import { SalesServiceInterface } from '../services/SalesServiceInterface';
+import { ISalesService } from '../services/SalesServiceInterface';
 
 export class SalesController {
     constructor(
-        private readonly _salesService: SalesServiceInterface
+        private readonly _salesService: ISalesService
     ) { }
     
     createSale = async (

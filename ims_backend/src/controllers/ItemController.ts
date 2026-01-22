@@ -9,10 +9,10 @@ import {
     UpdateItemParams,
 } from '../validation/inventory/updateItemSchema';
 import { DeleteItemParams } from '../validation/inventory/deleteItemSchema';
-import { ItemServiceInterface } from '../services/ItemServiceInterface';
+import { IItemService } from '../services/ItemServiceInterface';
 
 export class ItemController {
-    constructor(private readonly _itemService: ItemServiceInterface) {}
+    constructor(private readonly _itemService: IItemService) {}
 
     getItems = async (
         req: Request<{}, {}, {}, GetItemRequest>,

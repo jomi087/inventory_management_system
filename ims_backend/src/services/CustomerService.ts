@@ -1,14 +1,14 @@
 import { HTTP_STATUS } from '../constants/http_constants';
 import { AppError } from '../errors/AppError';
 import { ERROR_MESSAGES } from '../messages/error_messages';
-import { CustomerRepositoryInterface } from '../repositories/CustomerRepositoryInterface';
+import { ICustomerRepository } from '../repositories/CustomerRepositoryInterface';
 import { Customer } from '../types/customer';
 import { UpdateCustomerBody } from '../validation/customer/updateCustomerSchema';
-import { CustomerServiceInterface } from './CustomerServiceInterface';
+import { ICustomerService } from './CustomerServiceInterface';
 
-export class CustomerServiceV1 implements CustomerServiceInterface {
+export class CustomerServiceV1 implements ICustomerService {
     constructor(
-        private readonly _customerRepository: CustomerRepositoryInterface
+        private readonly _customerRepository: ICustomerRepository
     ) {}
 
     async createCustomer(

@@ -2,12 +2,12 @@ import ItemModel, { IItem } from '../models/itemModel';
 import { GetItemsResult, ItemFilter, ItemResponse } from '../types/Items';
 import { UpdateItemBody } from '../validation/inventory/updateItemSchema';
 import { BaseRepository } from './base/BaseRepository';
-import { ItemRepositoryInterface } from './ItemRepositoryInterface';
+import { IItemRepository } from './ItemRepositoryInterface';
 import { mapItemResponse } from './mappers/itemMapper';
 
 export class ItemRepository
     extends BaseRepository<ItemResponse, IItem>
-    implements ItemRepositoryInterface
+    implements IItemRepository
 {
     constructor() {
         super(ItemModel);

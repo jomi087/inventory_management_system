@@ -1,7 +1,7 @@
 import { GetItemsResult, ItemFilter, ItemResponse } from '../types/Items';
 import { UpdateItemBody } from '../validation/inventory/updateItemSchema';
 
-export interface ItemRepositoryInterface {
+export interface IItemRepository {
     getItems(
         filter: ItemFilter,
         skip: number,

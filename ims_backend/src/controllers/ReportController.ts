@@ -4,15 +4,15 @@ import {
     CustomerLedgerParams,
     CustomerLedgerQuery,
 } from '../validation/report/customerLedgerSchema';
-import { ReportServiceInterface } from '../services/ReportServiceInterface';
+import { IReportService } from '../services/ReportServiceInterface';
 import { SaleReportQuery } from '../validation/report/saleReportSchema';
 import { ItemReportQuery } from '../validation/report/itemReportSchema';
-import { ExportServiceInterface } from '../services/ExportServiceInterface';
+import { IExportService } from '../services/ExportServiceInterface';
 
 export class ReportController {
     constructor(
-        private readonly _reportService: ReportServiceInterface,
-        private readonly _exportService: ExportServiceInterface
+        private readonly _reportService: IReportService,
+        private readonly _exportService: IExportService
     ) {}
 
     getCustomerLedger = async (

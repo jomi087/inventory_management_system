@@ -1,6 +1,6 @@
 import { SaleLedgerResponse, SaleReportResponse } from '../types/report';
 
-export interface SalesRepositoryInterface {
+export interface ISalesRepository {
     createSale(payload: {
         itemId: string;
         quantity: number;

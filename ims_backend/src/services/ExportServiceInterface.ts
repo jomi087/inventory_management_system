@@ -1,5 +1,4 @@
-// services/ExportServiceInterface.ts
-export interface ExportServiceInterface {
+export interface IExportService {
     exportSalesPDF(data: any): Promise<Buffer>;
     exportSalesExcel(data: any): Promise<Buffer>;
 

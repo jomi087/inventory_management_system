@@ -1,7 +1,7 @@
 import { GetItemsResult, ItemResponse } from '../types/Items';
 import { UpdateItemBody } from '../validation/inventory/updateItemSchema';
 
-export interface ItemServiceInterface {
+export interface IItemService {
     getItems(
         pageNumber: number,
         limitNumber: number,

@@ -2,11 +2,11 @@ import { NextFunction, Request, Response } from 'express';
 import { SUCCESS_MESSAGES } from '../messages/success_messages';
 import { HTTP_STATUS } from '../constants/http_constants';
 
-import { AuthServiceInterface } from '../services/AuthServiceInterface';
+import { IAuthService } from '../services/AuthServiceInterface';
 import { loginRequest } from '../validation/auth/loginSchema';
 
 export class AuthController {
-    constructor(private readonly _authService: AuthServiceInterface) {}
+    constructor(private readonly _authService: IAuthService) {}
 
     login = async (
         req: Request<{}, {}, loginRequest>,

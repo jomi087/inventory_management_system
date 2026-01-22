@@ -1,13 +1,13 @@
 import { HTTP_STATUS } from '../constants/http_constants';
 import { AppError } from '../errors/AppError';
 import { ERROR_MESSAGES } from '../messages/error_messages';
-import { ItemRepositoryInterface } from '../repositories/ItemRepositoryInterface';
+import { IItemRepository } from '../repositories/ItemRepositoryInterface';
 import { GetItemsResult, ItemResponse } from '../types/Items';
 import { UpdateItemBody } from '../validation/inventory/updateItemSchema';
-import { ItemServiceInterface } from './ItemServiceInterface';
+import { IItemService } from './ItemServiceInterface';
 
-export class ItemServiceV1 implements ItemServiceInterface {
-    constructor(private readonly _itemRepository: ItemRepositoryInterface) {}
+export class ItemServiceV1 implements IItemService {
+    constructor(private readonly _itemRepository: IItemRepository ) {}
 
     async getItems(
         pageNumber: number,

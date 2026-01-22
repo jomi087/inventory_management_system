@@ -1,12 +1,12 @@
 import CustomerModel, { ICustomer } from '../models/customerModel';
 import { Customer, CustomerFilter } from '../types/customer';
 import { BaseRepository } from './base/BaseRepository';
-import { CustomerRepositoryInterface } from './CustomerRepositoryInterface';
+import { ICustomerRepository } from './CustomerRepositoryInterface';
 import { mapCustomerResponse } from './mappers/cutomerMapper';
 
 export class CustomerRepository
     extends BaseRepository<Customer, ICustomer>
-    implements CustomerRepositoryInterface
+    implements ICustomerRepository
 {
     constructor() {
         super(CustomerModel);

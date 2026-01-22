@@ -2,10 +2,10 @@ import { Types } from 'mongoose';
 import SaleModel from '../models/saleModel';
 import { SaleLedgerResponse, SaleReportResponse } from '../types/report';
 import { mapSaleToLedgerRowResponse } from './mappers/sales/ledgerMapper';
-import { SalesRepositoryInterface } from './SalesRepositoryInterface';
+import { ISalesRepository } from './SalesRepositoryInterface';
 import { mapSaleToReportResponse } from './mappers/sales/reportMapper';
 
-export class SalesRepository implements SalesRepositoryInterface {
+export class SalesRepository implements ISalesRepository {
     async createSale(payload: {
         itemId: string;
         quantity: number;

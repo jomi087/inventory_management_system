@@ -1,19 +1,19 @@
 import { HTTP_STATUS } from '../constants/http_constants';
 import { AppError } from '../errors/AppError';
 import { ERROR_MESSAGES } from '../messages/error_messages';
-import { CustomerRepositoryInterface } from '../repositories/CustomerRepositoryInterface';
-import { ItemRepositoryInterface } from '../repositories/ItemRepositoryInterface';
-import { SalesRepositoryInterface } from '../repositories/SalesRepositoryInterface';
+import { ICustomerRepository } from '../repositories/CustomerRepositoryInterface';
+import { IItemRepository } from '../repositories/ItemRepositoryInterface';
+import { ISalesRepository } from '../repositories/SalesRepositoryInterface';
 import { GetItemsResult, ItemReportResult } from '../types/Items';
 import { SaleLedgerResponse, SaleReportResponse } from '../types/report';
 import { SaleReportQuery } from '../validation/report/saleReportSchema';
-import { ReportServiceInterface } from './ReportServiceInterface';
+import { IReportService } from './ReportServiceInterface';
 
-export class ReportServiceV1 implements ReportServiceInterface {
+export class ReportServiceV1 implements IReportService {
     constructor(
-        private readonly _customerRepository: CustomerRepositoryInterface,
-        private readonly _saleRepository: SalesRepositoryInterface,
-        private readonly _itemRepository: ItemRepositoryInterface
+        private readonly _customerRepository: ICustomerRepository,
+        private readonly _saleRepository: ISalesRepository,
+        private readonly _itemRepository: IItemRepository
     ) {}
 
     async getCustomerLedger(

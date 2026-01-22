@@ -11,10 +11,10 @@ import {
     generateCustomerLedgerExcel,
 } from '../utils/excelExporter';
 
-import { ExportServiceInterface } from './ExportServiceInterface';
+import { IExportService } from './ExportServiceInterface';
 import { sendMail } from '../utils/mail';
 
-export class ExportServiceV1 implements ExportServiceInterface {
+export class ExportServiceV1 implements IExportService {
     async exportSalesPDF(data: any): Promise<Buffer> {
         return generateSalesReportPDF(data);
     }

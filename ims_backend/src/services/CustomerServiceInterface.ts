@@ -1,7 +1,7 @@
 import { Customer } from '../types/customer';
 import { UpdateCustomerBody } from '../validation/customer/updateCustomerSchema';
 
-export interface CustomerServiceInterface {
+export interface ICustomerService {
     createCustomer(
         name: string,
         address: string,

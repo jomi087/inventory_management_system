@@ -4,39 +4,39 @@ import { HTTP_STATUS } from '../constants/http_constants';
 import { AUTH_MESSAGES } from '../messages/auth_messages';
 import { signToken } from '../utils/jwt';
 
-import { AuthRepositoryInterface } from '../repositories/AuthRepositoryInterface';
-import { AuthServiceInterface } from './AuthServiceInterface';
+import { IAuthRepository } from '../repositories/AuthRepositoryInterface';
+import { IAuthService } from './AuthServiceInterface';
 
-export class AuthServiceV1 implements AuthServiceInterface {  //High-level module = Business logic layer
-  constructor(
-    private readonly _authRepository: AuthRepositoryInterface  //High-level modules should NOT depend on low-level modules They should depend on abstractions (interfaces)
-  ) {}
+export class AuthServiceV1 implements IAuthService {
+    //High-level module = Business logic layer
+    constructor(
+        private readonly _authRepository: IAuthRepository //High-level modules should NOT depend on low-level modules They should depend on abstractions (interfaces)
+    ) {}
 
-  async login(email: string, password: string): Promise<string> {
+    async login(email: string, password: string): Promise<string> {
+        const user = await this._authRepository.findByEmail(email);
 
-    const user = await this._authRepository.findByEmail(email);
+        if (!user) {
+            throw new AppError(
+                HTTP_STATUS.NOT_FOUND,
+                AUTH_MESSAGES.USER_NOT_FOUND
+            );
+        }
 
-    if (!user) {
-      throw new AppError(
-        HTTP_STATUS.NOT_FOUND,
-        AUTH_MESSAGES.USER_NOT_FOUND
-      );
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            throw new AppError(
+                HTTP_STATUS.UNAUTHORIZED,
+                AUTH_MESSAGES.INVALID_CREDENTIALS
+            );
+        }
+
+        const token = signToken({
+            userId: user.id,
+            email: user.email,
+        });
+
+        return token;
     }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      throw new AppError(
-        HTTP_STATUS.UNAUTHORIZED,
-        AUTH_MESSAGES.INVALID_CREDENTIALS
-      );
-    }
-
-    const token = signToken({
-      userId: user.id,
-      email: user.email,
-    });
-
-    return token;
-  }
 }

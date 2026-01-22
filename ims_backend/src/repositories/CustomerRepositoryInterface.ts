@@ -1,6 +1,6 @@
 import { Customer, CustomerFilter } from '../types/customer';
 
-export interface CustomerRepositoryInterface {
+export interface ICustomerRepository {
     findExistingCustomerByMoblie(
         mobile: string,
         excludeId?: string

@@ -1,17 +1,17 @@
 import { HTTP_STATUS } from '../constants/http_constants';
 import { AppError } from '../errors/AppError';
 import { ERROR_MESSAGES } from '../messages/error_messages';
-import { CustomerRepositoryInterface } from '../repositories/CustomerRepositoryInterface';
-import { ItemRepositoryInterface } from '../repositories/ItemRepositoryInterface';
-import { SalesRepositoryInterface } from '../repositories/SalesRepositoryInterface';
+import { ICustomerRepository } from '../repositories/CustomerRepositoryInterface';
+import { IItemRepository } from '../repositories/ItemRepositoryInterface';
+import { ISalesRepository } from '../repositories/SalesRepositoryInterface';
 import { CreateSaleBody } from '../validation/sale/createSaleSchema';
-import { SalesServiceInterface } from './SalesServiceInterface';
+import { ISalesService } from './SalesServiceInterface';
 
-export class SalesServiceV1 implements SalesServiceInterface {
+export class SalesServiceV1 implements ISalesService {
     constructor(
-        private readonly _itemRepository: ItemRepositoryInterface,
-        private readonly _customerRepository: CustomerRepositoryInterface,
-        private readonly _salesRepository: SalesRepositoryInterface
+        private readonly _itemRepository: IItemRepository,
+        private readonly _customerRepository: ICustomerRepository,
+        private readonly _salesRepository: ISalesRepository
     ) {}
 
     async createSale(payload: CreateSaleBody): Promise<void> {

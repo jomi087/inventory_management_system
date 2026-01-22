@@ -2,7 +2,7 @@ import { GetItemsResult, ItemReportResult } from '../types/Items';
 import { SaleLedgerResponse, SaleReportResponse } from '../types/report';
 import { SaleReportQuery } from '../validation/report/saleReportSchema';
 
-export interface ReportServiceInterface {
+export interface IReportService {
     getCustomerLedger(
         id: string,
         pageNumber: number,
