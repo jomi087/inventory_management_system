@@ -1,3 +1,4 @@
+import { API_ROUTES } from '../constants/apiRoutes';
 import type {
   CreateCustomerPayload,
   updateCustomerPayload,
@@ -33,25 +34,25 @@ class AuthService {
   }
 
   createSale(data: CreateSalesPayload) {
-    return axiosInstance.post('/sales', data);
+    return axiosInstance.post(API_ROUTES.SALES.ROOT, data);
   }
 
   getSales() {
-    return axiosInstance.get('/sales/');
+    return axiosInstance.get(API_ROUTES.SALES.ROOT);
   }
 
   getCustomers(search?: string) {
-    return axiosInstance.get('/customers', {
+    return axiosInstance.get(API_ROUTES.CUSTOMERS.ROOT, {
       params: { search },
     });
   }
 
   createCustomer(data: CreateCustomerPayload) {
-    return axiosInstance.post('/customers', data);
+    return axiosInstance.post(API_ROUTES.CUSTOMERS.ROOT, data);
   }
 
   updateCustomer(id: string, data: updateCustomerPayload) {
-    return axiosInstance.put(`/customers/${id}`, data);
+    return axiosInstance.put(API_ROUTES.CUSTOMERS.BY_ID(id), data);
   }
 
   getSalesReport(from?: string, to?: string) {
@@ -60,15 +61,15 @@ class AuthService {
     if (from) params.from = from;
     if (to) params.to = to;
 
-    return axiosInstance.get('/reports/sales', { params });
+    return axiosInstance.get(API_ROUTES.REPORTS.SALES, { params });
   }
 
   getItemsReport() {
-    return axiosInstance.get('/reports/items');
+    return axiosInstance.get(API_ROUTES.REPORTS.ITEMS);
   }
 
   getCustomerLedger(customerId: string) {
-    return axiosInstance.get(`/reports/customers/${customerId}`);
+    return axiosInstance.get(API_ROUTES.REPORTS.CUSTOMER_LEDGER(customerId));
   }
 }
 

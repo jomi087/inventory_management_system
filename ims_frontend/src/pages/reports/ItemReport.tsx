@@ -14,15 +14,28 @@ interface Item {
   price: number;
 }
 
+interface Summary {
+  lowStockCount: number;
+  outOfStockCount: number;
+  totalInventoryValue: number;
+}
+
 const ItemsReport = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(false);
+  const [summary, setSummary] = useState<Summary | null>(null);
 
   const fetchItems = async () => {
     try {
       setLoading(true);
       const res = await AuthService.getItemsReport();
       setItems(res.data.items);
+      const info = {
+        lowStockCount: res.data.lowStockCount,
+        outOfStockCount: res.data.outOfStockCount,
+        totalInventoryValue: res.data.totalInventoryValue,
+      };
+      setSummary(info);
     } catch {
       toast.error('Failed to load items');
     } finally {
@@ -65,25 +78,64 @@ const ItemsReport = () => {
 
   return (
     <section className="space-y-4 rounded bg-white p-4 shadow">
-      <h3 className="font-semibold">Items Report</h3>
+      <div className="flex flex-col gap-4 rounded-lg bg-white px-5 py-4 shadow">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-gray-800">
+            Items Report
+          </h3>
+        </div>
+
+        {/* Summary */}
+        {summary && (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-md bg-yellow-50 p-4 text-center">
+              <p className="text-sm font-medium text-yellow-700">
+                Low Stock
+              </p>
+              <p className="mt-1 text-xl font-semibold text-yellow-900">
+                {summary.lowStockCount}
+              </p>
+            </div>
+
+            <div className="rounded-md bg-red-50 p-4 text-center">
+              <p className="text-sm font-medium text-red-700">
+                Out of Stock
+              </p>
+              <p className="mt-1 text-xl font-semibold text-red-900">
+                {summary.outOfStockCount}
+              </p>
+            </div>
+
+            <div className="rounded-md bg-green-50 p-4 text-center">
+              <p className="text-sm font-medium text-green-700">
+                Total Inventory Value
+              </p>
+              <p className="mt-1 text-xl font-semibold text-green-900">
+                ₹{summary.totalInventoryValue.toLocaleString('en-IN')}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* TABLE */}
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <table className="min-w-full border text-sm">
+        <table className="min-w-full border border-gray-300 text-sm">
           <thead>
             <tr className="bg-gray-50">
-              <th className="p-2 text-center w-44">Sr.No</th>
+              <th className="w-44 p-2 text-center">Sr.No</th>
               <th className="p-2 text-center">Name</th>
               <th className="p-2 text-center">Qty</th>
               <th className="p-2 text-center">Price</th>
             </tr>
           </thead>
           <tbody>
-            {items.map((i,idx) => (
-              <tr key={i.id} className="border-b">
-                <td className="p-2 text-center w-44">{idx+1}</td>
+            {items.map((i, idx) => (
+              <tr key={i.id} className="hover:bg-gray-100/50">
+                <td className="w-44 p-2 text-center">{idx + 1}</td>
                 <td className="p-2 text-center">{i.name}</td>
                 <td className="p-2 text-center">{i.quantity}</td>
                 <td className="p-2 text-center">{i.price}</td>
