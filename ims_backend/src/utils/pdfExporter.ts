@@ -1,6 +1,8 @@
 import PDFDocument from 'pdfkit';
+import { CustomerLedgerReport, ItemReportResult, SaleLedgerResponse, SaleReportResponse } from '../types/report';
+import { ItemResponse } from '../types/Items';
 
-export const generateSalesReportPDF = (data: any) => {
+export const generateSalesReportPDF = (data: SaleReportResponse[]) => {
     return new Promise<Buffer>((resolve) => {
         const doc = new PDFDocument();
         const buffers: Buffer[] = [];
@@ -11,7 +13,7 @@ export const generateSalesReportPDF = (data: any) => {
         doc.fontSize(18).text('Sales Report', { align: 'center' });
         doc.moveDown();
 
-        data.forEach((sale: any) => {
+        data.forEach((sale: SaleReportResponse) => {
             doc.text(
                 `${sale.item.name} | Qty: ${sale.quantity} | Price: ${sale.priceAtSale}`
             );
@@ -21,7 +23,7 @@ export const generateSalesReportPDF = (data: any) => {
     });
 };
 
-export const generateItemsReportPDF = (data: any) => {
+export const generateItemsReportPDF = (data: ItemReportResult) => {
     return new Promise<Buffer>((resolve) => {
         const doc = new PDFDocument();
         const buffers: Buffer[] = [];
@@ -31,7 +33,7 @@ export const generateItemsReportPDF = (data: any) => {
 
         doc.text('Item Report');
 
-        data.items.forEach((item: any) => {
+        data.items.forEach((item: ItemResponse) => {
             doc.text(
                 `${item.name} | Qty: ${item.quantity} | Price: ${item.price}`
             );
@@ -41,7 +43,7 @@ export const generateItemsReportPDF = (data: any) => {
     });
 };
 
-export const generateCustomerLedgerPDF = (data: any) => {
+export const generateCustomerLedgerPDF = (data: CustomerLedgerReport) => {
     return new Promise<Buffer>((resolve) => {
         const doc = new PDFDocument();
         const buffers: Buffer[] = [];
@@ -52,9 +54,9 @@ export const generateCustomerLedgerPDF = (data: any) => {
         doc.text(`Customer: ${data.customer.name}`);
         doc.moveDown();
 
-        data.transactions.forEach((t: any) => {
+        data.transactions.forEach((t: SaleLedgerResponse) => {
             doc.text(
-                `${t.date} | Qty: ${t.quantity} | Amount: ${
+                `${t.createdAt} | Qty: ${t.quantity} | Amount: ${
                     t.quantity * t.priceAtSale
                 }`
             );

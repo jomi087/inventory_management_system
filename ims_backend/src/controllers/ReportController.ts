@@ -122,7 +122,6 @@ export class ReportController {
         }
     };
 
-
     exportItemsEmail = async (
         req: Request<{}, {}, {}, ItemReportQuery>,
         res: Response,
@@ -150,6 +149,7 @@ export class ReportController {
             next(error);
         }
     };
+
 
 
     exportCustomerLedgerEmail = async (

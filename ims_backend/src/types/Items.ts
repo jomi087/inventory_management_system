@@ -20,8 +20,4 @@ export interface GetItemsResult {
     total: number;
 }
 
-export interface ItemReportResult extends GetItemsResult {
-    lowStockCount: number;
-    outOfStockCount: number;
-    totalInventoryValue: number;
-}
+

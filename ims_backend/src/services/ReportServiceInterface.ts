@@ -1,5 +1,4 @@
-import { GetItemsResult, ItemReportResult } from '../types/Items';
-import { SaleLedgerResponse, SaleReportResponse } from '../types/report';
+import { CustomerLedgerReport, ItemReportResult, SaleLedgerResponse, SaleReportResponse } from '../types/report';
 import { SaleReportQuery } from '../validation/report/saleReportSchema';
 
 export interface IReportService {
@@ -7,16 +6,7 @@ export interface IReportService {
         id: string,
         pageNumber: number,
         limitNumber: number
-    ): Promise<{
-        customer: {
-            id: string;
-            name: string;
-            mobile: string;
-        };
-        transactions: SaleLedgerResponse[];
-        totalAmount: number;
-        total: number;
-    }>;
+    ): Promise<CustomerLedgerReport>;
 
     getSalesReport(dateRange: SaleReportQuery): Promise<{
         data: SaleReportResponse[];

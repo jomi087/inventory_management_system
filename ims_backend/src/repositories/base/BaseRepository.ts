@@ -2,7 +2,7 @@ import { Model, Document } from 'mongoose';
 
 export abstract class BaseRepository<TDomain, TDoc extends Document> {
     protected constructor(
-        protected readonly model: any // Model<TDoc>
+        protected readonly model: Model<TDoc>
     ) {}
 
     protected abstract mapToDomain(doc: TDoc): TDomain;

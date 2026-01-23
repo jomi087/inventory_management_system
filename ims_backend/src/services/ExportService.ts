@@ -5,25 +5,21 @@ import {
     generateCustomerLedgerPDF,
 } from '../utils/pdfExporter';
 
-import {
-    generateSalesReportExcel,
-    generateItemsReportExcel,
-    generateCustomerLedgerExcel,
-} from '../utils/excelExporter';
-
 import { IExportService } from './ExportServiceInterface';
 import { sendMail } from '../utils/mail';
+import { CustomerLedgerReport, SaleReportResponse } from '../types/report';
+import { ItemReportResult } from '../types/report';
 
 export class ExportServiceV1 implements IExportService {
-    async exportSalesPDF(data: any): Promise<Buffer> {
+    async exportSalesPDF(data: SaleReportResponse[]): Promise<Buffer> {
         return generateSalesReportPDF(data);
     }
 
-    async exportItemsPDF(data: any): Promise<Buffer> {
+    async exportItemsPDF(data: ItemReportResult): Promise<Buffer> {
         return generateItemsReportPDF(data);
     }
 
-    async exportCustomerLedgerPDF(data: any): Promise<Buffer> {
+    async exportCustomerLedgerPDF(data: CustomerLedgerReport): Promise<Buffer> {
         return generateCustomerLedgerPDF(data);
     }
 

@@ -2,13 +2,14 @@ import nodemailer from 'nodemailer';
 import { ERROR_MESSAGES } from '../messages/error_messages';
 import { HTTP_STATUS } from '../constants/http_constants';
 import { AppError } from '../errors/AppError';
+import { Attachment } from 'nodemailer/lib/mailer';
 
 
 export const sendMail = async (
     to: string,
     subject: string,
     text: string,
-    attachments?: any[]
+    attachments?: Attachment[]
 ) => {
     try {
         const transporter = nodemailer.createTransport({

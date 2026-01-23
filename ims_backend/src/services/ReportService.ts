@@ -4,8 +4,12 @@ import { ERROR_MESSAGES } from '../messages/error_messages';
 import { ICustomerRepository } from '../repositories/CustomerRepositoryInterface';
 import { IItemRepository } from '../repositories/ItemRepositoryInterface';
 import { ISalesRepository } from '../repositories/SalesRepositoryInterface';
-import { GetItemsResult, ItemReportResult } from '../types/Items';
-import { SaleLedgerResponse, SaleReportResponse } from '../types/report';
+import {
+    CustomerLedgerReport,
+    ItemReportResult,
+    SaleLedgerResponse,
+    SaleReportResponse,
+} from '../types/report';
 import { SaleReportQuery } from '../validation/report/saleReportSchema';
 import { IReportService } from './ReportServiceInterface';
 
@@ -20,16 +24,7 @@ export class ReportServiceV1 implements IReportService {
         id: string,
         pageNumber: number,
         limitNumber: number
-    ): Promise<{
-        customer: {
-            id: string;
-            name: string;
-            mobile: string;
-        };
-        transactions: SaleLedgerResponse[];
-        totalAmount: number;
-        total: number;
-    }> {
+    ): Promise<CustomerLedgerReport> {
         const skip = (pageNumber - 1) * limitNumber;
 
         const customer = await this._customerRepository.findCustomerById(id);
