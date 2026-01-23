@@ -6,6 +6,7 @@ import axiosInstance from '../../services/axiosConfig';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import * as XLSX from 'xlsx';
 import { LedgerPDF } from './LedgerPDF';
+import axios from 'axios';
 
 interface Customer {
   id: string;
@@ -28,13 +29,22 @@ const CustomerLedger = () => {
   const [customerName, setCustomerName] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const handleError = (error: unknown, fallback: string) => {
+    let msg = fallback;
+
+    if (axios.isAxiosError(error)) {
+      msg = error.response?.data?.message || fallback;
+    }
+
+    toast.error(msg);
+  };
+
   const fetchCustomers = async () => {
     try {
-      const res =
-        await AuthService.getCustomers();
+      const res = await AuthService.getCustomers();
       setCustomers(res.data.customer);
-    } catch {
-      toast.error('Failed to load customers');
+    } catch (error) {
+      handleError(error, 'Failed to load customers');
     }
   };
 
@@ -47,20 +57,15 @@ const CustomerLedger = () => {
 
     try {
       setLoading(true);
-      const res =
-        await AuthService.getCustomerLedger(
-          customerId
-        );
+      const res = await AuthService.getCustomerLedger(customerId);
       setLedger(res.data.transactions);
 
       const name =
-        customers.find(
-          c => c.id === customerId
-        )?.name || '';
+        customers.find(c => c.id === customerId)?.name || '';
 
       setCustomerName(name);
-    } catch {
-      toast.error('Failed to load ledger');
+    } catch (error) {
+      handleError(error, 'Failed to load ledger');
     } finally {
       setLoading(false);
     }
@@ -73,25 +78,15 @@ const CustomerLedger = () => {
       Quantity: l.quantity,
       Price: l.priceAtSale,
       Payment: l.paymentType,
-      Date: new Date(
-        l.createdAt
-      ).toLocaleDateString()
+      Date: new Date(l.createdAt).toLocaleDateString(),
     }));
 
-    const ws =
-      XLSX.utils.json_to_sheet(data);
+    const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
 
-    XLSX.utils.book_append_sheet(
-      wb,
-      ws,
-      'Ledger'
-    );
+    XLSX.utils.book_append_sheet(wb, ws, 'Ledger');
 
-    XLSX.writeFile(
-      wb,
-      `${customerName}-ledger.xlsx`
-    );
+    XLSX.writeFile(wb, `${customerName}-ledger.xlsx`);
   };
 
   /* BACKEND EMAIL */
@@ -99,11 +94,11 @@ const CustomerLedger = () => {
     try {
       setLoading(true);
       await axiosInstance.get(
-        `/reports/ledger/export/email/${customerId}`
+        `/reports/customers-ledger/${customerId}/export/email`
       );
       toast.success('Email sent');
-    } catch {
-      toast.error('Failed to send email');
+    } catch (error) {
+      handleError(error, 'Failed to send email');
     } finally {
       setLoading(false);
     }
@@ -111,27 +106,18 @@ const CustomerLedger = () => {
 
   return (
     <section className="space-y-4 rounded bg-white p-4 shadow">
-      <h3 className="font-semibold">
-        Customer Ledger
-      </h3>
+      <h3 className="font-semibold">Customer Ledger</h3>
 
       {/* SELECT */}
       <div className="flex gap-3">
         <select
           value={customerId}
-          onChange={e =>
-            setCustomerId(e.target.value)
-          }
-          className="rounded border px-2 py-2 "
+          onChange={e => setCustomerId(e.target.value)}
+          className="rounded border px-2 py-2"
         >
-          <option value="">
-            Select Customer
-          </option>
+          <option value="">Select Customer</option>
           {customers.map(c => (
-            <option
-              key={c.id}
-              value={c.id}
-            >
+            <option key={c.id} value={c.id}>
               {c.name}
             </option>
           ))}
@@ -161,26 +147,13 @@ const CustomerLedger = () => {
           </thead>
           <tbody>
             {ledger.map(l => (
-              <tr
-                key={l.id}
-                className="border-b"
-              >
-                <td className="p-2">
-                  {l.item.name}
-                </td>
-                <td className="p-2">
-                  {l.quantity}
-                </td>
-                <td className="p-2">
-                  {l.priceAtSale}
-                </td>
-                <td className="p-2">
-                  {l.paymentType}
-                </td>
-                <td className="p-2">
-                  {new Date(
-                    l.createdAt
-                  ).toLocaleDateString()}
+              <tr key={l.id} className="border-b">
+                <td className="p-2 text-center">{l.item.name}</td>
+                <td className="p-2 text-center">{l.quantity}</td>
+                <td className="p-2 text-center">{l.priceAtSale}</td>
+                <td className="p-2 text-center">{l.paymentType}</td>
+                <td className="p-2 text-center">
+                  {new Date(l.createdAt).toLocaleDateString()}
                 </td>
               </tr>
             ))}
@@ -191,14 +164,10 @@ const CustomerLedger = () => {
       {/* EXPORT */}
       {ledger.length > 0 && (
         <div className="flex gap-3">
-
           {/* PDF */}
           <PDFDownloadLink
             document={
-              <LedgerPDF
-                ledger={ledger}
-                customer={customerName}
-              />
+              <LedgerPDF ledger={ledger} customer={customerName} />
             }
             fileName={`${customerName}-ledger.pdf`}
           >

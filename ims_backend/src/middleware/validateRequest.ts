@@ -1,6 +1,7 @@
 import { ZodType } from 'zod';
 import { Request, Response, NextFunction } from 'express';
 import { HTTP_STATUS } from '../constants/http_constants';
+import { logger } from '../config/logger';
 
 type RequestSchema = ZodType<{
     body?: unknown;
@@ -10,15 +11,18 @@ type RequestSchema = ZodType<{
 
 export const validateRequest =
     (schema: RequestSchema) =>
-        (req: Request, res: Response, next: NextFunction) => {
+    (req: Request, res: Response, next: NextFunction) => {
         const result = schema.safeParse({
             body: req.body,
             query: req.query,
             params: req.params,
         });
+        // console.log(req.query)
 
         if (!result.success) {
             const errorMessages = result.error.issues.map((err) => err.message);
+
+            logger.debug(`Validation Error ${errorMessages}`);
             return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 success: false,
                 message:

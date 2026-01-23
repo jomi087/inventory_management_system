@@ -66,9 +66,9 @@ const Login = () => {
       localStorage.setItem('token', res.data.token);
       navigate('/');
     } catch (error) {
-      let errorMsg = 'Something went wrong';
+      let errorMsg = 'Login failed';
       if (axios.isAxiosError(error)) {
-        errorMsg = error.response?.data?.message || 'Login failed';
+        errorMsg = error.response?.data?.message || errorMsg ;
       }
       toast.error(errorMsg);
     } finally {

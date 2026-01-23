@@ -96,58 +96,6 @@ export class ReportController {
         }
     };
 
-    // SALES PDF/EXCEL/EMAIL
-    exportSalesPDF = async (
-        req: Request<{}, {}, {}, SaleReportQuery>,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { data } = await this._reportService.getSalesReport(
-                req.query
-            );
-
-            const pdf = await this._exportService.exportSalesPDF(data);
-
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader(
-                'Content-Disposition',
-                'attachment; filename=sales.pdf'
-            );
-
-            res.send(pdf);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    exportSalesExcel = async (
-        req: Request<{}, {}, {}, SaleReportQuery>,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { data } = await this._reportService.getSalesReport(
-                req.query
-            );
-
-            const file = await this._exportService.exportSalesExcel(data);
-
-            res.setHeader(
-                'Content-Type',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            );
-
-            res.setHeader(
-                'Content-Disposition',
-                'attachment; filename=sales.xlsx'
-            );
-
-            res.send(file);
-        } catch (error) {
-            next(error);
-        }
-    };
 
     exportSalesEmail = async (
         req: Request<{}, {}, {}, SaleReportQuery>,
@@ -174,64 +122,6 @@ export class ReportController {
         }
     };
 
-    // ITEMS PDF/EXCEL/EMAIL
-    exportItemsPDF = async (
-        req: Request<{}, {}, {}, ItemReportQuery>,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { page = '1', limit = '10' } = req.query;
-
-            const data = await this._reportService.getItemsReport(
-                Number(page),
-                Number(limit)
-            );
-
-            const pdf = await this._exportService.exportItemsPDF(data);
-
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader(
-                'Content-Disposition',
-                'attachment; filename=items.pdf'
-            );
-
-            res.send(pdf);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    exportItemsExcel = async (
-        req: Request<{}, {}, {}, ItemReportQuery>,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { page = '1', limit = '10' } = req.query;
-
-            const data = await this._reportService.getItemsReport(
-                Number(page),
-                Number(limit)
-            );
-
-            const file = await this._exportService.exportItemsExcel(data);
-
-            res.setHeader(
-                'Content-Type',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            );
-
-            res.setHeader(
-                'Content-Disposition',
-                'attachment; filename=items.xlsx'
-            );
-
-            res.send(file);
-        } catch (error) {
-            next(error);
-        }
-    };
 
     exportItemsEmail = async (
         req: Request<{}, {}, {}, ItemReportQuery>,
@@ -261,66 +151,6 @@ export class ReportController {
         }
     };
 
-    // CUSTOMER LEDGER PDF/EXCEL/EMAIL
-    exportCustomerLedgerPDF = async (
-        req: Request<CustomerLedgerParams, {}, {}, CustomerLedgerQuery>,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { id } = req.params;
-
-            const data = await this._reportService.getCustomerLedger(
-                id,
-                1,
-                1000
-            ); // export full ledger
-
-            const pdf = await this._exportService.exportCustomerLedgerPDF(data);
-
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader(
-                'Content-Disposition',
-                'attachment; filename=ledger.pdf'
-            );
-
-            res.send(pdf);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    exportCustomerLedgerExcel = async (
-        req: Request<CustomerLedgerParams, {}, {}, CustomerLedgerQuery>,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { id } = req.params;
-
-            const data = await this._reportService.getCustomerLedger(
-                id,
-                1,
-                1000
-            );
-
-            const file =
-                await this._exportService.exportCustomerLedgerExcel(data);
-
-            res.setHeader(
-                'Content-Type',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            );
-
-            res.setHeader(
-                'Content-Disposition',
-                'attachment; filename=ledger.xlsx'
-            );
-            res.send(file);
-        } catch (error) {
-            next(error);
-        }
-    };
 
     exportCustomerLedgerEmail = async (
         req: Request<CustomerLedgerParams, {}, {}, CustomerLedgerQuery>,

@@ -47,41 +47,11 @@ router.get(
     reportController.getItemsReport
 );
 
-// EXPORT - CUSTOMER LEDGER
 router.get(
-    '/customers/:id/export/pdf',
-    protect,
-    validateRequest(customerLedgerSchema),
-    reportController.exportCustomerLedgerPDF
-);
-
-router.get(
-    '/customers/:id/export/excel',
-    protect,
-    validateRequest(customerLedgerSchema),
-    reportController.exportCustomerLedgerExcel
-);
-
-router.get(
-    '/customers/:id/export/email',
+    '/customers-ledger/:id/export/email',
     protect,
     validateRequest(customerLedgerSchema),
     reportController.exportCustomerLedgerEmail
-);
-
-// EXPORT - SALES
-router.get(
-    '/sales/export/pdf',
-    protect,
-    validateRequest(saleReportSchema),
-    reportController.exportSalesPDF
-);
-
-router.get(
-    '/sales/export/excel',
-    protect,
-    validateRequest(saleReportSchema),
-    reportController.exportSalesExcel
 );
 
 router.get(
@@ -89,21 +59,6 @@ router.get(
     protect,
     validateRequest(saleReportSchema),
     reportController.exportSalesEmail
-);
-
-// EXPORT - ITEMS
-router.get(
-    '/items/export/pdf',
-    protect,
-    validateRequest(itemReportSchema),
-    reportController.exportItemsPDF
-);
-
-router.get(
-    '/items/export/excel',
-    protect,
-    validateRequest(itemReportSchema),
-    reportController.exportItemsExcel
 );
 
 router.get(

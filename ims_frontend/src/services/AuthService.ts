@@ -41,7 +41,7 @@ class AuthService {
   }
 
   getCustomers(search?: string) {
-    return axiosInstance.get('/customers',{
+    return axiosInstance.get('/customers', {
       params: { search },
     });
   }
@@ -55,9 +55,12 @@ class AuthService {
   }
 
   getSalesReport(from?: string, to?: string) {
-    return axiosInstance.get('/reports/sales', {
-      params: { from, to },
-    });
+    const params: Record<string, string> = {};
+
+    if (from) params.from = from;
+    if (to) params.to = to;
+
+    return axiosInstance.get('/reports/sales', { params });
   }
 
   getItemsReport() {

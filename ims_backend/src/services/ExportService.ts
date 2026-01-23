@@ -19,24 +19,12 @@ export class ExportServiceV1 implements IExportService {
         return generateSalesReportPDF(data);
     }
 
-    async exportSalesExcel(data: any): Promise<Buffer> {
-        return generateSalesReportExcel(data);
-    }
-
     async exportItemsPDF(data: any): Promise<Buffer> {
         return generateItemsReportPDF(data);
     }
 
-    async exportItemsExcel(data: any): Promise<Buffer> {
-        return generateItemsReportExcel(data);
-    }
-
     async exportCustomerLedgerPDF(data: any): Promise<Buffer> {
         return generateCustomerLedgerPDF(data);
-    }
-
-    async exportCustomerLedgerExcel(data: any): Promise<Buffer> {
-        return generateCustomerLedgerExcel(data);
     }
 
     async sendReportEmail(

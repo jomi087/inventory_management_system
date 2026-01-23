@@ -8,12 +8,10 @@ export const saleReportSchema = z.object({
         .object({
             from: z
                 .string()
-                .regex(/^\d{4}-\d{2}-\d{2}$/, DATE_FORMAT)
-                .optional(),
+                .regex(/^\d{4}-\d{2}-\d{2}$/, DATE_FORMAT),
             to: z
                 .string()
-                .regex(/^\d{4}-\d{2}-\d{2}$/, DATE_FORMAT)
-                .optional(),
+                .regex(/^\d{4}-\d{2}-\d{2}$/, DATE_FORMAT),
             page: z.string().regex(/^\d+$/, PAGE_NUMBER_INVALID).optional(),
             limit: z.string().regex(/^\d+$/, LIMIT_NUMBER_INVALID).optional(),
         })

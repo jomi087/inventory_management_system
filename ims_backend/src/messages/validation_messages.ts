@@ -31,7 +31,7 @@ export const VALIDATION_MESSAGES = {
     PAGE_NUMBER_INVALID: 'Invalid Page number',
     LIMIT_NUMBER_INVALID: 'Invalid Limit number',
 
-    DATE_FORMAT: 'Invalid date format (YYYY-MM-DD)',
+    DATE_FORMAT: 'Invalid date',
     BOTH_OR_NONE_DATES: 'Both from and to must be provided together',
     FROM_AFTER_TO: 'From date cannot be greater than To date',
     FUTURE_DATE: 'Future dates are not allowed',

@@ -7,6 +7,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import * as XLSX from 'xlsx';
 import { SalesPDF } from '../../components/export/SalesPDF';
 import axiosInstance from '../../services/axiosConfig';
+import axios from 'axios';
 
 export interface Sale {
   id: string;
@@ -19,8 +20,10 @@ export interface Sale {
 
 const SalesReport = () => {
   const [sales, setSales] = useState<Sale[]>([]);
-  const [from, setFrom] = useState<string>();
-  const [to, setTo] = useState<string>();
+
+  const today = new Date().toISOString().split('T')[0];
+  const [from, setFrom] = useState(today);
+  const [to, setTo] = useState(today);
   const [loading, setLoading] = useState(false);
 
   const fetchSales = async () => {
@@ -28,8 +31,14 @@ const SalesReport = () => {
       setLoading(true);
       const res = await AuthService.getSalesReport(from, to);
       setSales(res.data.salesReport);
-    } catch {
-      toast.error('Failed to load report');
+    } catch (error) {
+      let errorMsg = 'Failed to load report';
+
+      if (axios.isAxiosError(error)) {
+        errorMsg = error.response?.data?.message || errorMsg;
+      }
+
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -64,8 +73,13 @@ const SalesReport = () => {
         `/reports/sales/export/email?from=${from}&to=${to}`
       );
       toast.success('Email Sent Successfull');
-    } catch {
-      toast.error('Failed to load report');
+    } catch (error) {
+      let errorMsg = 'Failed to send report';
+
+      if (axios.isAxiosError(error)) {
+        errorMsg = error.response?.data?.message || errorMsg;
+      }
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -73,9 +87,7 @@ const SalesReport = () => {
 
   return (
     <section className="space-y-4 rounded bg-white p-4 shadow">
-      <h3 className="font-semibold">
-        Sales Report
-      </h3>
+      <h3 className="font-semibold">Sales Report</h3>
 
       {/* FILTER */}
       <div className="flex gap-3">
@@ -133,7 +145,7 @@ const SalesReport = () => {
         </div>
       )}
 
-      { sales.length > 0  &&
+      {sales.length > 0 && (
         <div className="flex gap-3">
           <PDFDownloadLink
             document={<SalesPDF sales={sales} />}
@@ -164,7 +176,7 @@ const SalesReport = () => {
             Email
           </button>
         </div>
-      }
+      )}
     </section>
   );
 };

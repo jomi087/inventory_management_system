@@ -44,8 +44,14 @@ const Items = () => {
       );
       setItems(res.data.items);
       setTotal(res.data.total);
-    } catch {
-      toast.error('Failed to fetch items');
+    } catch (error) {
+      let errorMsg = 'Failed to fetch items';
+
+      if (axios.isAxiosError(error)) {
+        errorMsg = error.response?.data?.message || errorMsg;
+      }
+
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -66,11 +72,10 @@ const Items = () => {
 
       // fetchItems();
     } catch (error) {
-      let errorMsg = 'Something went wrong';
+      let errorMsg = 'Failed to create item';
       if (axios.isAxiosError(error)) {
         // backend error message
-        errorMsg =
-          error.response?.data?.message || 'Failed to create item';
+        errorMsg = error.response?.data?.message || errorMsg;
       }
       toast.error(errorMsg);
     } finally {
@@ -92,11 +97,10 @@ const Items = () => {
         )
       );
     } catch (error) {
-      let errorMsg = 'Something went wrong';
+      let errorMsg = 'Failed to update item';
       if (axios.isAxiosError(error)) {
         // backend error message
-        errorMsg =
-          error.response?.data?.message || 'Failed to update item';
+        errorMsg = error.response?.data?.message || errorMsg;
       }
       toast.error(errorMsg);
     } finally {
@@ -108,15 +112,17 @@ const Items = () => {
     if (!Itemid) return;
     try {
       await AuthService.deleteItem(Itemid);
-      setItems(prevItems => prevItems.filter( item => item.id != Itemid ))
+      setItems(prevItems =>
+        prevItems.filter(item => item.id != Itemid)
+      );
 
       toast.success('Item Deleted');
     } catch (error) {
-      let errorMsg = 'Something went wrong';
+      let errorMsg = 'Failed to delete item';
       if (axios.isAxiosError(error)) {
         // backend error message
         errorMsg =
-          error.response?.data?.message || 'Failed to delete item';
+          error.response?.data?.message || errorMsg;
       }
       toast.error(errorMsg);
     }
